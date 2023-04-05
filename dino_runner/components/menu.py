@@ -34,4 +34,19 @@ class Menu:
         self.text = self.font.render(message, True, (0, 0, 0))
         self.text_rect = self.text.get_rect()
         self.text_rect.center = (self.half_screen_width, self.half_screen_height)
+
+    def show_best_score(self, score):
+        self.text = self.font.render(f"Best score: {score}", True, (0, 0, 0))
+        self.text_rect = self.text.get_rect()
+        self.text_rect.center = (self.half_screen_width + 200, self.half_screen_height + 50)
+
+    def show_actual_score(self, score):
+        self.text = self.font.render(f"Score: {score}", True, (0, 0, 0))
+        self.text_rect = self.text.get_rect()
+        self.text_rect.center = (self.half_screen_width - 200 , self.half_screen_height + 50)
+
+    def show_death_count(self, count):
+        self.text = self.font.render(f"Death count: {count}", True, (0, 0, 0))
+        self.text_rect = self.text.get_rect()
+        self.text_rect.center = (self.half_screen_width, self.half_screen_height + 100)
                 

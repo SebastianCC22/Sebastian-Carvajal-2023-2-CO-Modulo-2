@@ -22,6 +22,7 @@ class Game:
         self.menu = Menu(self.screen, "Press any key to start")
         self.running = False
         self.score = 0
+        self.best_score = 0
         self.death_count = 0
 
     def run(self):
@@ -82,8 +83,17 @@ class Game:
         if self.death_count == 0:
             self.menu.draw(self.screen)
         else:
+            self.best_score = max(self.score, self.best_score)
             self.menu.update_message("Dino has died :C")
             self.menu.draw(self.screen)
+            if self.best_score:
+                self.menu.show_best_score(self.best_score)
+                self.menu.draw(self.screen)
+            self.menu.show_actual_score(self.score)
+            self.menu.draw(self.screen)
+            self.menu.show_death_count(self.death_count)
+            self.menu.draw(self.screen)
+
         self.menu.update(self)
 
     def update_score(self):
