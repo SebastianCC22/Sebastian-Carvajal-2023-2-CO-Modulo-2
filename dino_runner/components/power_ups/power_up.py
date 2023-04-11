@@ -1,8 +1,9 @@
 import random
 
-from dino_runner.utils.constants import SCREEN_WIDTH
+from dino_runner.utils.constants import SCREEN_WIDTH, HAMMER
 
 from pygame.sprite import Sprite
+
 
 class PowerUp(Sprite):
     def __init__(self, image, type):

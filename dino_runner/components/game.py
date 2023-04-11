@@ -1,7 +1,7 @@
 import pygame
 
 from dino_runner.components.obstacles.obastacle_manager import ObstacleManager
-from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, FONT_STYLE, DEFAULT_TYPE
+from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, FONT_STYLE, DEFAULT_TYPE, HAMMER
 from dino_runner.components.dinosaur import Dinosaur
 from dino_runner.components.counter import Counter
 from dino_runner.components.menu import Menu
@@ -27,6 +27,7 @@ class Game:
         self.best_score = Counter()
         self.death_count = Counter()
         self.power_up_manager = PowerUpManager()
+
 
     def run(self):
         # Game loop: events - update - draw
@@ -57,7 +58,7 @@ class Game:
         self.player.update(user_input)
         self.obstacle_manager.update(self)
         self.update_score()
-        self.power_up_manager.update(self)
+        self.power_up_manager.update(self, user_input)
 
     def draw(self):
         self.clock.tick(FPS)
@@ -79,6 +80,8 @@ class Game:
             self.screen.blit(BG, (image_width + self.x_pos_bg, self.y_pos_bg))
             self.x_pos_bg = 0
         self.x_pos_bg -= self.game_speed
+        if self.game_speed >= 1000 and self.game_speed <= 2500:
+            self.screen.fill((0, 0, 0))
 
     def show_menu(self):
         self.menu.reset_screen_color(self.screen)
@@ -90,15 +93,15 @@ class Game:
         else:
             self.update_highest_score()
             self.menu.draw(self.screen, 'Game Over')
-            self.menu.draw(self.screen, f'Score: {self.score.count}', half_screen_width, 350)
-            self.menu.draw(self.screen, f'Deaths: {self.death_count.count}', half_screen_width, 400)
+            self.menu.draw(self.screen, f'Score: {self.score.count}', half_screen_width - 100, 350)
+            self.menu.draw(self.screen, f'Deaths: {self.death_count.count}', half_screen_width + 200, 350)
             self.menu.draw(self.screen, f'Highest Score: {self.best_score.count}', half_screen_width, 500)
         self.menu.update(self)
 
     def update_score(self):
         self.score.update()
         if self.score.count % 100 == 0 and self.game_speed < 500:
-            self.game_speed += 5
+            self.game_speed += 1
 
     def update_highest_score(self):
         if self.score.count > self.best_score.count:
@@ -117,5 +120,6 @@ class Game:
             if time_to_show >= 2:
                 self.menu.draw(self.screen, f'{self.player.type.capitalize()}: {time_to_show}', 500, 20)
             else:
+                self.power_up_manager.hammer = []
                 self.player.has_power_up = False
                 self.player.type = DEFAULT_TYPE

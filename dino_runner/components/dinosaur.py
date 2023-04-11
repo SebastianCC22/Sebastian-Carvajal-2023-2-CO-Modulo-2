@@ -1,6 +1,6 @@
 import pygame
 from pygame.sprite import Sprite
-from dino_runner.utils.constants import DEFAULT_TYPE, SHIELD_TYPE, HAMMER_TYPE, RUNNING, JUMPING, DUCKING, RUNNING_SHIELD, RUNNING_HAMMER, JUMPING_SHIELD, JUMPING_HAMMER, DUCKING_SHIELD, DUCKING_HAMMER
+from dino_runner.utils.constants import HAMMER, DEFAULT_TYPE, SHIELD_TYPE, HAMMER_TYPE, RUNNING, JUMPING, DUCKING, RUNNING_SHIELD, RUNNING_HAMMER, JUMPING_SHIELD, JUMPING_HAMMER, DUCKING_SHIELD, DUCKING_HAMMER
 
 RUN_IMAGE = { DEFAULT_TYPE: RUNNING, SHIELD_TYPE: RUNNING_SHIELD, HAMMER_TYPE: RUNNING_HAMMER}
 DUCK_IMAGE = { DEFAULT_TYPE: DUCKING, SHIELD_TYPE: DUCKING_SHIELD, HAMMER_TYPE: DUCKING_HAMMER}
@@ -25,7 +25,8 @@ class Dinosaur(Sprite):
         self.dino_duck = False
         self.has_power_up = False
         self.power_up_time = 0
-        
+        self.image_hammer = HAMMER
+
     def update(self, user_input):
         if self.dino_run:
             self.run()
@@ -45,13 +46,13 @@ class Dinosaur(Sprite):
             self.dino_jump = False
             self.dino_run = True
             self.dino_duck = False
-        
 
         if self.step_index >= 10:
             self.step_index = 0
 
     def draw(self, screen):
         screen.blit(self.image, (self.dino_rect.x, self.dino_rect.y))
+
 
     def run(self):
         self.image = RUN_IMAGE[self.type][self.step_index // 5]
@@ -85,3 +86,9 @@ class Dinosaur(Sprite):
         self.dino_duck = False
 
         self.jump_speed = self.JUMP_SPEED
+
+
+            
+
+
+
